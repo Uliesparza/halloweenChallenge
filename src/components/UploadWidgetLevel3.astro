@@ -1,0 +1,82 @@
+---
+import { CldUploadWidget } from 'astro-cloudinary';
+const { nivel } = Astro.props;
+---
+<CldUploadWidget 
+  signatureEndpoint="/api/sign-cloudinary-params"
+  uploadPreset="ml_default"
+  id="upload-events-level3"
+  data-nivel={nivel}
+  options={{
+    multiple: false,
+    maxFiles: 1,
+    styles: {
+      palette: {
+        window: "#1A202C", // Fondo oscuro
+        windowBorder: "#FF6B00", // Borde naranja
+        tabIcon: "#FF6B00", // Íconos de pestañas
+        menuIcons: "#FF6B00", // Íconos del menú
+        textDark: "#FFFFFF", // Texto oscuro en blanco
+        textLight: "#F7FAFC", // Texto claro
+        link: "#FF6B00", // Enlaces en naranja
+        action: "#FF6B00", // Botón de acción
+        inactiveTabIcon: "#4A5568", // Íconos inactivos
+        error: "#F56565", // Color de error en rojo
+        inProgress: "#FF6B00", // Progreso en naranja
+        complete: "#48BB78", // Completado en verde
+        sourceBg: "#2D3748" // Fondo oscuro de fuente
+      },
+      fonts: {
+        default: {
+          active: true,
+          url: null,
+          family: "Creepster, sans-serif", // Fuente de Halloween
+          size: "14px"
+        }
+      }
+    }
+  }}
+>
+  <button class="bg-purple-800 hover:bg-orange-600 text-white font-bold py-2 px-4 rounded-lg">
+    Subir Imagen
+  </button>
+</CldUploadWidget>
+
+<script client:load>
+  const widget = document.querySelector('#upload-events-level3');
+  if (widget) {
+    const dataNivel = widget.getAttribute('data-nivel');
+    const nivel = parseInt(dataNivel, 10) || 3;
+
+    widget.addEventListener('clduploadwidget:success', async (e) => {
+      const { detail } = e;
+      const { info } = detail;
+
+      if (info && info.secure_url) {
+        console.log('Image URL:', info.secure_url);
+        try {
+          const response = await fetch(`/api/analyze-image${nivel === 1 ? '' : nivel}`, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+              uri: info.secure_url
+            })
+          });
+
+          const data = await response.json();
+          console.log(`AI Vision Analysis Level ${nivel}:`, data);
+
+          if (data.success) {
+            window.location.href = `/nivel${nivel + 1}`;
+          } else {
+            window.location.href = `/nivel${nivel}F`;
+          }
+        } catch (error) {
+          console.error('Error durante el análisis de la imagen:', error);
+        }
+      }
+    });
+  }
+</script>

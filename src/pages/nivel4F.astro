@@ -1,0 +1,24 @@
+---
+import Layout from '../layouts/Layout.astro';
+import UploadWidgetLevel4 from '../components/UploadWidgetLevel4.astro';
+---
+
+<Layout title="Desafío 4 - Intento Fallido">
+  <main class="bg-black text-gray-100 min-h-screen flex flex-col items-center justify-center halloween-background">
+    <div class="relative flex flex-col mx-auto items-center justify-center w-2/3 shadow-2xl bg-slate-800 p-8 rounded-lg content-center border-4 border-slate-900">
+      <!-- Ajuste del contenedor con borde oscuro y estilos mejorados -->
+      <h1 class="text-4xl font-bold mb-6 text-red-600 text-center">Desafío 4 - Intento Fallido</h1>
+      <p class="mb-8 text-lg text-center italic">
+        "Las máscaras no se mostraron. ¿Quiénes ocultan sus rostros en el ocaso?"
+      </p>
+      <p class="mb-6 text-center text-lg">
+        Intenta nuevamente resolver el acertijo.
+      </p>
+
+      <!-- Widget de subida -->
+      <div class="content-center">
+        <UploadWidgetLevel4 nivel={4} />
+      </div>
+    </div>
+  </main>
+</Layout>

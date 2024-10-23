@@ -1,77 +1,85 @@
 ---
 import { CldUploadWidget } from 'astro-cloudinary';
+const { nivel } = Astro.props;
 ---
-
 <CldUploadWidget 
   signatureEndpoint="/api/sign-cloudinary-params"
   uploadPreset="ml_default"
   id="upload-events"
   options={{
-    sources: ['local', 'url', 'camera'],
     multiple: false,
     maxFiles: 1,
-    folder: "Prueba",
     styles: {
       palette: {
-        window: "#1A202C",
-        windowBorder: "#FF6B00",
-        tabIcon: "#FF6B00",
-        menuIcons: "#FF6B00",
-        textDark: "#FFFFFF",
-        textLight: "#F7FAFC",
-        link: "#FF6B00",
-        action: "#FF6B00",
-        inactiveTabIcon: "#4A5568",
-        error: "#F56565",
-        inProgress: "#FF6B00",
-        complete: "#48BB78",
-        sourceBg: "#2D3748"
+        window: "#1A202C", // Fondo oscuro
+        windowBorder: "#FF6B00", // Borde naranja
+        tabIcon: "#FF6B00", // Íconos de pestañas
+        menuIcons: "#FF6B00", // Íconos del menú
+        textDark: "#FFFFFF", // Texto oscuro en blanco
+        textLight: "#F7FAFC", // Texto claro
+        link: "#FF6B00", // Enlaces en naranja
+        action: "#FF6B00", // Botón de acción
+        inactiveTabIcon: "#4A5568", // Íconos inactivos
+        error: "#F56565", // Color de error en rojo
+        inProgress: "#FF6B00", // Progreso en naranja
+        complete: "#48BB78", // Completado en verde
+        sourceBg: "#2D3748" // Fondo oscuro de fuente
       },
       fonts: {
         default: {
           active: true,
           url: null,
-          family: "Creepster, sans-serif",
+          family: "Creepster, sans-serif", // Fuente de Halloween
           size: "14px"
         }
       }
     }
-  }}>
-  <button class="bg-purple-800 hover:bg-orange-600 text-white font-bold py-2 px-4 rounded-lg shadow-lg transform hover:scale-105 transition-transform duration-300 ease-in-out 
-  border-2 border-orange-400 hover:border-orange-600 
-  font-halloween">
-    🎃 Upload Image 🎃
+  }}
+
+  data-nivel={nivel}
+>
+  <button class="bg-purple-800 hover:bg-orange-600 text-white font-bold py-2 px-4 rounded-lg">
+    Subir Imagen
   </button>
 </CldUploadWidget>
 
 <script client:load>
-  document.addEventListener('DOMContentLoaded', () => {
-    const widget = document.querySelector('#upload-events');
-    if (widget) {
-      widget.addEventListener('clduploadwidget:success', async (e) => {
-        const { detail } = e;
-        const { info } = detail;
-        
-        if (info && info.secure_url) {
-          console.log('Image URL:', info.secure_url);
-          try {
-            const response = await fetch('/api/analyze-image', {
-              method: 'POST',
-              headers: {
-                'Content-Type': 'application/json'
-              },
-              body: JSON.stringify({
-                uri: info.secure_url
-              })
-            });
-    
-            const data = await response.json();
-            console.log('AI Vision Analysis:', data);
-          } catch (error) {
-            console.error('Error during AI Vision analysis:', error);
+  const widget = document.querySelector('#upload-events');
+  if (widget) {
+    const dataNivel = widget.getAttribute('data-nivel');
+    const nivel = parseInt(dataNivel, 10) || 1; // Por defecto, nivel 1
+
+    widget.addEventListener('clduploadwidget:success', async (e) => {
+      const { detail } = e;
+      const { info } = detail;
+
+      if (info && info.secure_url) {
+        console.log('Image URL:', info.secure_url);
+        try {
+          const response = await fetch(`/api/analyze-image${nivel === 1 ? '' : nivel}`, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+              uri: info.secure_url
+            })
+          });
+
+          const data = await response.json();
+          console.log('AI Vision Analysis:', data);
+
+          if (data.success) {
+            // Redirigir al siguiente nivel
+            window.location.href = `/nivel${nivel + 1}`;
+          } else {
+            // Redirigir a la página de intento fallido del nivel actual
+            window.location.href = `/nivel${nivel}F`;
           }
+        } catch (error) {
+          console.error('Error durante el análisis de la imagen:', error);
         }
-      });
-    }
-  });
+      }
+    });
+  }
 </script>

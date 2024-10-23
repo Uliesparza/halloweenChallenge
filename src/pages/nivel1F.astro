@@ -1,0 +1,21 @@
+---
+import Layout from '../layouts/Layout.astro';
+import UploadWidget from '../components/UploadWidget.astro';
+---
+
+<Layout title="Desafío 1 - Intento Fallido">
+  <main class="bg-black text-gray-100 min-h-screen flex flex-col items-center justify-center halloween-background">
+    <div class="relative flex flex-col mx-auto items-center justify-center w-2/3 shadow-2xl bg-slate-800 p-8 rounded-lg content-center border-4 border-slate-900">
+      <h1 class="text-4xl font-bold mb-6 text-red-600 text-center">Desafío 1 - Intento Fallido</h1>
+      <p class="mb-8 text-lg text-center italic">
+        "Las sombras aún te envuelven. Intenta de nuevo..."
+      </p>
+      <p class="mb-6 text-center text-lg">
+        Resuelve el acertijo y sube la imagen que corresponda.
+      </p>
+      <div class="content-center">
+        <UploadWidget nivel={1} />
+      </div>
+    </div>
+  </main>
+</Layout>

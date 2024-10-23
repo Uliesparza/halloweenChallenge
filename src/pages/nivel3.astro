@@ -1,0 +1,27 @@
+---
+import Layout from '../layouts/Layout.astro';
+import UploadWidgetLevel3 from '../components/UploadWidgetLevel3.astro';
+---
+
+<Layout title="Desafío 3">
+  <main class="bg-black text-gray-100 min-h-screen flex flex-col items-center justify-center halloween-background">
+    <div class="relative flex flex-col mx-auto items-center justify-center w-2/3 shadow-2xl bg-slate-800 p-8 rounded-lg content-center border-4 border-slate-900">
+      <!-- Ajuste del contenedor con borde oscuro y estilos mejorados -->
+      <h1 class="text-4xl font-bold mb-6 text-purple-500 text-center">Desafío 3</h1>
+      <p class="mb-8 text-lg text-center">
+        Felicidades, pero no te confíes. ¡Aún queda mucho por hacer!
+      </p>
+      <p class="mb-8 text-lg text-center italic bg-slate-900 p-4 rounded-md">
+        "Ellas eran quemadas por su gran poderío, ellos hoy son venerados por el suyo. Una imagen de cualquiera de los dos te llevará al cuarto desafío."
+      </p>
+      <p class="mb-6 text-center text-lg">
+        Resuelve el acertijo y sube la imagen que corresponda.
+      </p>
+
+      <!-- Widget de subida -->
+      <div class="content-center">
+        <UploadWidgetLevel3 nivel={3} />
+      </div>
+    </div>
+  </main>
+</Layout>

@@ -1,12 +1,49 @@
 ---
 import Layout from '../layouts/Layout.astro';
-import UploadWidget from '../components/UploadWidget.astro';
 ---
 
-<Layout title="Welcome to Astro.">
-  <main>
-    <div class="container mx-auto px-4 py-8 items-center justify-center flex flex-col">  
-      <UploadWidget />
+<Layout title="La Noche de las Sombras">
+  <main class="bg-black text-gray-100 min-h-screen flex flex-col items-center justify-center halloween-background">
+    <div class="relative flex flex-col mx-auto items-center justify-center w-2/3 shadow-2xl bg-slate-800 p-8 rounded-lg content-center border-4 border-slate-900">
+      <h1 class="text-5xl font-creepster mb-6 text-orange-600 text-center">Bienvenido, alma valiente...</h1>
+      <p class="mb-8 text-xl text-center">
+        Te adentras en la oscuridad de la Noche de las Sombras. Un juego donde tus decisiones determinarán tu destino. ¿Estás listo para enfrentar los desafíos que aguardan?
+      </p>
+       <!-- Acordeón para las instrucciones -->
+       <div class="w-full">
+        <button id="accordion-button" class="w-full text-left bg-slate-900 text-white py-3 px-6 rounded-lg focus:outline-none flex justify-between items-center">
+          <span>Instrucciones</span>
+          <svg class="w-5 h-5 transition-transform transform" id="accordion-icon" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+            <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"></path>
+          </svg>
+        </button>
+        <div id="accordion-content" class="hidden mt-2 p-4 bg-slate-700 rounded-lg">
+          <h2 class="text-lg font-semibold text-orange-500 mb-2">1. Como jugar</h2>
+          <p class="mb-4 text-m text-gray-300">Es el día de Halloween, o la fiesta de halloween que estabas esperando durante todo el mes. Para darle un poco más de emoción, decides jugar este desafío. La idea es que tomes fotos a distintos disfraces para cumplir con los desafios que se te dan. Son solo 5 desafíos y cada uno se completa subiendo una foto que contenga lo solicitado en el acertijo </p>
+
+          <h2 class="text-lg font-semibold text-orange-500 mb-2">2. Cómo funciona este proyecto?</h2>
+          <p class="mb-4 text-m text-gray-300">Este proyecto fue realizado con astro en conjunto a Cloudinary, especificamente con Cloudinary AI Vision (beta) para la hackathon de Cloudinary x MiduDev. Las imagenes que subas serán analizadas por esta IA para ver si cumplen con lo solicitado por cada desafío.</p>
+
+          <h2 class="text-lg font-semibold text-orange-500 mb-2">3. Algo de info</h2>
+          <p class="mb-4 text-m text-gray-300">La idea del juego es solo permitir imagenes que sean directamente tomadas de la cámara, pero para efectos de la Hackathon, tambien dejaré para subir imagenes desde otras fuentes. No es lo mismo, pero al menos tendrán que darse la molestia de buscar en google :)</p>
+        </div>
+      </div>
+
+      <a href="/nivel1" class="mt-10 bg-orange-600 hover:bg-orange-800 text-white font-bold py-3 px-6 rounded-full transition duration-300 ease-in-out transform hover:-translate-y-1 hover:scale-110 mb-4">
+        Entrar en la Oscuridad
+      </a>
+      <p class="text-slate-600"> Cloudinary x MiduDev Hackaton</p>
     </div>
   </main>
 </Layout>
+
+<script>
+  const accordionButton = document.getElementById('accordion-button');
+  const accordionContent = document.getElementById('accordion-content');
+  const accordionIcon = document.getElementById('accordion-icon');
+
+  accordionButton.addEventListener('click', () => {
+    accordionContent.classList.toggle('hidden');
+    accordionIcon.classList.toggle('rotate-180'); // Rotación de la flecha al desplegar
+  });
+</script>
